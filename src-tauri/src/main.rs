@@ -6,7 +6,7 @@ use serde::Serialize;
 use std::{
     fs::File,
     io::BufReader,
-    sync::{mpsc::Sender, Arc, Mutex},
+    sync::{mpsc::Sender, Mutex},
 };
 use tauri::{Manager, State};
 
@@ -52,13 +52,14 @@ async fn stop(playback_mutex: State<'_, Mutex<PlaybackState>>) -> Result<(), ()>
     state.sinks.clear();
     Ok(())
 }
+
 #[tauri::command]
 async fn change_device(
     device: String,
     playback_mutex: State<'_, Mutex<PlaybackState>>,
 ) -> Result<(), ()> {
     println!("Changing device!");
-    let mut state = playback_mutex.lock().unwrap();
+    let state = playback_mutex.lock().unwrap();
     let _ = state.sender.send(device);
     Ok(())
 }
