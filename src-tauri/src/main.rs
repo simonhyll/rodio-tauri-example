@@ -80,8 +80,6 @@ fn main() {
                     let mut state = state_mutex.lock().unwrap();
                     state.stream = Some(stream.1);
                 }
-                let state_mutex = app.state::<Mutex<PlaybackState>>();
-                let state = state_mutex.lock().unwrap();
             });
             Ok(())
         })
